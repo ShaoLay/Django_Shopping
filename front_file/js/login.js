@@ -1,6 +1,3 @@
-/**
- * Created by python on 18-7-2.
- */
 var vm = new Vue({
     el: '#app',
     data: {
