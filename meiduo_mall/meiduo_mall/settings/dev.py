@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     # 'meiduo_mall.apps.users.apps.UsersConfig',
     'users.apps.UsersConfig',
     'verifications.apps.VerificationsConfig',
+    'oauth.apps.OauthConfig',
 ]
 
 MIDDLEWARE = [
