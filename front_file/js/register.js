@@ -55,7 +55,6 @@ var vm = new Vue({
             // 设置页面中图片验证码img标签的src属性
             this.image_code_url = this.host + "/image_codes/" + this.image_code_id + "/";
         },
-        // 检查用户名
         check_username: function (){
             var len = this.username.length;
             if(len<5||len>20) {
@@ -64,23 +63,7 @@ var vm = new Vue({
             } else {
                 this.error_name = false;
             }
-            // 检查重名
-            if (this.error_name == false) {
-                axios.get(this.host + '/usernames/' + this.username + '/count/', {
-                        responseType: 'json'
-                    })
-                    .then(response => {
-                        if (response.data.count > 0) {
-                            this.error_name_message = '用户名已存在';
-                            this.error_name = true;
-                        } else {
-                            this.error_name = false;
-                        }
-                    })
-                    .catch(error => {
-                        console.log(error.response.data);
-                    })
-            }
+
         },
         check_pwd: function (){
             var len = this.password.length;
@@ -97,7 +80,6 @@ var vm = new Vue({
                 this.error_check_password = false;
             }
         },
-        // 检查手机号
         check_phone: function (){
             var re = /^1[345789]\d{9}$/;
             if(re.test(this.mobile)) {
@@ -106,22 +88,7 @@ var vm = new Vue({
                 this.error_phone_message = '您输入的手机号格式不正确';
                 this.error_phone = true;
             }
-            if (this.error_phone == false) {
-                axios.get(this.host + '/mobiles/'+ this.mobile + '/count/', {
-                        responseType: 'json'
-                    })
-                    .then(response => {
-                        if (response.data.count > 0) {
-                            this.error_phone_message = '手机号已存在';
-                            this.error_phone = true;
-                        } else {
-                            this.error_phone = false;
-                        }
-                    })
-                    .catch(error => {
-                        console.log(error.response.data);
-                    })
-            }
+
         },
         check_image_code: function (){
             if(!this.image_code) {
@@ -220,14 +187,6 @@ var vm = new Vue({
                         responseType: 'json'
                     })
                     .then(response => {
-                        // 记录用户的登录状态
-                        sessionStorage.clear();
-                        localStorage.clear();
-
-                        localStorage.token = response.data.token;
-                        localStorage.username = response.data.username;
-                        localStorage.user_id = response.data.id;
-
                         location.href = '/index.html';
                     })
                     .catch(error=> {

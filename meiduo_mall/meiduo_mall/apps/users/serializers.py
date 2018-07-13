@@ -7,9 +7,9 @@ from .models import User
 
 class CreateUserSerializer(serializers.ModelSerializer):
     """创建用户的序列化器"""
-    password2 = serializers.CharField(label='确认密码',write_only=True)
-    sms_code = serializers.CharField(label='短信验证码',write_only=True)
-    allow = serializers.CharField(label='同意协议',write_only=True)
+    password2 = serializers.CharField(label='确认密码', write_only=True)
+    sms_code = serializers.CharField(label='短信验证码', write_only=True)
+    allow = serializers.CharField(label='同意协议', write_only=True)
 
     class Meta:
         model = User
@@ -35,19 +35,19 @@ class CreateUserSerializer(serializers.ModelSerializer):
         }
 
     def validate_mobile(self, value):
-        '''验证手机号'''
-        if not re.match(r'^1[3-9]\d{9}$',value):
+        """验证手机号"""
+        if not re.match(r'^1[3-9]\d{9}$', value):
             raise serializers.ValidationError('手机号格式错误')
         return value
 
     def validate_allow(self, value):
         """检验用户是否同意协议"""
-        if value != 'True':
+        if value != 'true':
             raise serializers.ValidationError('请同意用户协议')
         return value
 
     def validate(self, data):
-        """判断两次密码是否相同"""
+        # 判断两次密码
         if data['password'] != data['password2']:
             raise serializers.ValidationError('两次密码不一致')
 
@@ -55,16 +55,23 @@ class CreateUserSerializer(serializers.ModelSerializer):
         redis_conn = get_redis_connection('verify_codes')
         mobile = data['mobile']
         real_sms_code = redis_conn.get('sms_%s' % mobile)
-        if not re.match(r'^1[3-9]\d{9}$', data):
-            raise serializers.ValidationError('手机号格式错误')
+        if real_sms_code is None:
+            raise serializers.ValidationError('无效的短信验证码')
+        if data['sms_code'] != real_sms_code.decode():
+            raise serializers.ValidationError('短信验证码错误')
+
         return data
 
     def create(self, validated_data):
         """重写保存方法，增加密码加密"""
+
         # 移除数据库模型类中不存在的属性
         del validated_data['password2']
         del validated_data['sms_code']
         del validated_data['allow']
+
+        # user = User.objects.create(username=xxx, password=xx)
+        # user = User.objects.create(**validated_data)
 
         user = super().create(validated_data)
 
@@ -72,3 +79,25 @@ class CreateUserSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
