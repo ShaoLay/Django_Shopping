@@ -207,6 +207,11 @@ LOGGING = {
 # 指明自定义的用户模型类
 AUTH_USER_MODEL = 'users.User'
 
+# 认证方法
+AUTHENTICATION_BACKENDS = [
+    'users.utils.UsernameMobileAuthBackend',
+]
+
 REST_FRAMEWORK = {
     # 异常处理
     'EXCEPTION_HANDLER': 'meiduo_mall.utils.exceptions.exception_handler',
