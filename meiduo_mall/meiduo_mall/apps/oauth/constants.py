@@ -1,0 +1,2 @@
+# 绑定用户的有效期
+BIND_USERE_ACCESS_TOKEN_EXPIRES = 10 * 60
