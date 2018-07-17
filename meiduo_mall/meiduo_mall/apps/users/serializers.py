@@ -5,6 +5,7 @@ import re
 from rest_framework.settings import api_settings
 
 from .models import User
+from celery_tasks.email.tasks import send_active_email
 
 
 class CreateUserSerializer(serializers.ModelSerializer):
@@ -100,7 +101,31 @@ class UserDetailSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'mobile', 'email', 'email_active')
 
+class EmailSerialzier(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id','email')
 
+    def update(self,instance,validated_data):
+        """
+
+        :param instance:视图传过来的user对象
+        :param validated_data:
+        :return:
+        """
+
+        email = validated_data['email']
+
+        instance.email = email
+        instance.save()
+
+        # 生成激活链接
+        url = instance.generate_verify_email_url()
+
+        # 发送邮件
+        send_active_email.delay(email,url)
+
+        return instance
 
 
 
