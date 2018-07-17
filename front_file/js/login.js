@@ -46,7 +46,6 @@ var vm = new Vue({
                         password: this.password
                     }, {
                         responseType: 'json',
-                        withCredentials: true
                     })
                     .then(response => {
                         // 使用浏览器本地存储保存token
@@ -83,7 +82,16 @@ var vm = new Vue({
         },
         // qq登录
         qq_login: function(){
-
+            var next = this.get_query_string('next') || '/';
+            axios.get(this.host + '/oauth/qq/authorization/?next=' + next, {
+                    responseType: 'json'
+                })
+                .then(response => {
+                    location.href = response.data.login_url;
+                })
+                .catch(error => {
+                    console.log(error.response.data);
+                })
         }
     }
 });
