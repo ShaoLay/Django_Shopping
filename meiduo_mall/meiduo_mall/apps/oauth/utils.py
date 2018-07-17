@@ -3,7 +3,7 @@ import urllib.parse
 from urllib.request import urlopen
 import logging
 
-from .exceptions import OAuthQQAPIError
+# from .exceptions import OAuthQQAPIError
 
 logger = logging.getLogger('django')
 
