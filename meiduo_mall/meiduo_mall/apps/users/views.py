@@ -69,8 +69,9 @@ class UserDetailView(RetrieveAPIView):
         return self.request.user
 
 
+# PUT /email/
 class EmailView(UpdateAPIView):
-    serializers_class = serializers.EmailSerializer
+    serializer_class = serializers.EmailSerializer
     permission_classes = [IsAuthenticated]
 
     def get_object(self):

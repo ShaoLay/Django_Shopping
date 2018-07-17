@@ -1,8 +1,7 @@
 from django_redis import get_redis_connection
 from rest_framework import serializers
 import re
-
-from rest_framework.settings import api_settings
+from rest_framework_jwt.settings import api_settings
 
 from .models import User
 from celery_tasks.email.tasks import send_active_email
@@ -13,11 +12,11 @@ class CreateUserSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(label='确认密码', write_only=True)
     sms_code = serializers.CharField(label='短信验证码', write_only=True)
     allow = serializers.CharField(label='同意协议', write_only=True)
-    token = serializers.CharField(label='JWT token',read_only=True)
+    token = serializers.CharField(label='JWT token', read_only=True)
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'password', 'password2', 'sms_code', 'mobile', 'allow','token')
+        fields = ('id', 'username', 'password', 'password2', 'sms_code', 'mobile', 'allow', 'token')
         extra_kwargs = {
             'username': {
                 'min_length': 5,
@@ -93,6 +92,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
         return user
 
+
 class UserDetailSerializer(serializers.ModelSerializer):
     """
     用户详细信息序列化器
@@ -101,15 +101,16 @@ class UserDetailSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'mobile', 'email', 'email_active')
 
-class EmailSerialzier(serializers.ModelSerializer):
+
+class EmailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id','email')
+        fields = ('id', 'email')
 
-    def update(self,instance,validated_data):
+    def update(self, instance, validated_data):
         """
 
-        :param instance:视图传过来的user对象
+        :param instance:  视图传过来的user对象
         :param validated_data:
         :return:
         """
@@ -123,11 +124,9 @@ class EmailSerialzier(serializers.ModelSerializer):
         url = instance.generate_verify_email_url()
 
         # 发送邮件
-        send_active_email.delay(email,url)
+        send_active_email.delay(email, url)
 
         return instance
-
-
 
 
 
