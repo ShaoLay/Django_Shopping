@@ -6,12 +6,12 @@ from .models import Area
 class AreaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Area
-        fields = ('id','name')
+        fields = ('id', 'name')
 
 
-class SubArreaSerializer(serializers.ModelSerializer):
-    subs = AreaSerializer(many=True,read_only=True)
+class SubAreaSerializer(serializers.ModelSerializer):
+    subs = AreaSerializer(many=True, read_only=True)
 
     class Meta:
         model = Area
-        fields = ('id','name','subs')
+        fields = ('id', 'name', 'subs')

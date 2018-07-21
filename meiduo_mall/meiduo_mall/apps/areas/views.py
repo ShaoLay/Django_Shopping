@@ -7,7 +7,7 @@ from . import serializers
 # Create your views here.
 
 
-class AreasViewSet(CacheResponseMixin,ReadOnlyModelViewSet):
+class AreasViewSet(CacheResponseMixin, ReadOnlyModelViewSet):
 
     # 关闭分页处理
     pagination_class = None
@@ -23,3 +23,4 @@ class AreasViewSet(CacheResponseMixin,ReadOnlyModelViewSet):
             return serializers.AreaSerializer
         else:
             return serializers.SubAreaSerializer
+
