@@ -24,3 +24,4 @@ class AreasViewSet(CacheResponseMixin, ReadOnlyModelViewSet):
         else:
             return serializers.SubAreaSerializer
 
+
