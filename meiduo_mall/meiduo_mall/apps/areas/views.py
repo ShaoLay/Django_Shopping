@@ -7,6 +7,35 @@ from . import serializers
 # Create your views here.
 
 
+# # GET /areas/
+# class AreasView(ListModelMixin, GenericAPIView):
+#
+#     def list(self):
+#
+#     def get(self):
+#         list()
+#
+#     查询Area数据 复数
+#     序列化返回
+#
+# class AreasView(ListAPIView):
+#
+#
+# # GET /areas/<pk>/
+# class SubAreasView(RetrieveModelMixin, GenericAPIView):
+#
+#     def retrieve(self):
+#
+#     def get(self):
+#         retrieve()
+#
+#     查询单一的数据对象
+#     序列化返回
+#
+# class SubAreasView(RetrieveAPIView)
+
+
+# class AreasViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
 class AreasViewSet(CacheResponseMixin, ReadOnlyModelViewSet):
 
     # 关闭分页处理
@@ -23,5 +52,20 @@ class AreasViewSet(CacheResponseMixin, ReadOnlyModelViewSet):
             return serializers.AreaSerializer
         else:
             return serializers.SubAreaSerializer
+
+
+
+
+
+# /areas/   {'get': 'list'}  只返回顶级数据  parent=None
+# /areas/<pk>  {'get': 'retrieve'}
+
+
+
+
+
+
+
+
 
 

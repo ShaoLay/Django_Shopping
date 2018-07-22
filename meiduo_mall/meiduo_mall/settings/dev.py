@@ -258,4 +258,13 @@ EMAIL_HOST_PASSWORD = 'QWERTY0202'
 EMAIL_FROM = '美多商城<javs_shao@163.com>'
 
 
+# DRF扩展
+REST_FRAMEWORK_EXTENSIONS = {
+    # 缓存时间
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 60,
+    # 缓存存储
+    'DEFAULT_USE_CACHE': 'default',
+}
+
+
 
