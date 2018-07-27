@@ -297,6 +297,10 @@ CRONJOBS = [
 ]
 
 
+# 解决crontab中文问题
+CRONTAB_COMMAND_PREFIX = 'LANG_ALL=zh_cn.UTF-8'
+
+
 
 
 
