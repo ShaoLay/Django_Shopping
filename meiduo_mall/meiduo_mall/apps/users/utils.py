@@ -21,7 +21,7 @@ def get_user_by_account(account):
             user = User.objects.get(mobile=account)
         else:
             user = User.objects.get(username=account)
-    except User.DoerNotExist:
+    except User.DoesNotExist:
         return None
 
     else:
