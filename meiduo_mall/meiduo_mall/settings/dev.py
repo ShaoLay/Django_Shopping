@@ -289,6 +289,13 @@ CKEDITOR_UPLOAD_PATH = ''  # 上传图片保存路径，使用了FastDFS，所�
 GENERATED_STATIC_HTML_FILES_DIR = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'front_end_pc')
 
 
+# 定时任务
+CRONJOBS = [
+    # 每5分钟执行一次生成主页静态文件
+    # ('*/5 * * * *', 'contents.crons.generate_static_index_html', '>> /Users/delron/Desktop/meiduo_mall/logs/crontab.log')
+    ('*/1 * * * *', 'contents.crons.generate_static_index_html', '>> '+ os.path.join(os.path.dirname(BASE_DIR), "logs/crontab.log"))
+]
+
 
 
 
