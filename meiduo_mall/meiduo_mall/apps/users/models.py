@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from itsdangerous import TimedJSONWebSignatureSerializer as TJWSSerializer, BadData
 
 from . import constants
-from meiduo_mall.meiduo_mall.utils.models import BaseModel
+from meiduo_mall.utils.models import BaseModel
 # Create your models here.
 
 
