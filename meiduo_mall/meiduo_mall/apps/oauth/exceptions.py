@@ -1,2 +1,0 @@
-class OAuthQQAPIError(Exception):
-    pass
